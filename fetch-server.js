@@ -20,6 +20,7 @@ const uri = dbPprefix + dbUsername + ":" + dbPwd + dbUrl + dbParams;
 
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const { query } = require("express");
 const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
 let db = client.db(dbName);
 
@@ -46,6 +47,17 @@ app.param('collectionName', function (req, res, next, collectionName) {
 
 app.get('/collections/:collectionName', function (req, res, next) {
     req.collection.find({}).toArray().then(function (results, error) {
+        if(error){
+            return next(error);
+        }
+        res.send(results);
+    });
+});
+
+app.get('/collections/:collectionName/:query', function (req, res, next) {
+    let re = new RegExp(`/${query}/`);
+
+    req.collection.find({"name.last": { $regex: re }}).toArray().then(function (results, error) {
         if(error){
             return next(error);
         }
