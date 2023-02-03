@@ -55,10 +55,9 @@ app.get('/collections/:collectionName', function (req, res, next) {
 });
 
 app.get('/collections/:collectionName/:queryIn', function (req, res, next) {
-    let re = new RegExp(`/${queryIn}/i`);
-    var test = req.params.id;
+    var test = req.params.queryIn;
 
-    console.log(queryIn);
+    console.log(req.params.queryIn);
     console.log(test);
 
     req.collection.find({subject:  new RegExp(test)}).toArray().then(function (results, error) {
