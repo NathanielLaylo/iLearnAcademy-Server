@@ -56,6 +56,8 @@ app.get('/collections/:collectionName', function (req, res, next) {
 
 app.get('/collections/:collectionName/:query', function (req, res, next) {
     let re = new RegExp(`/${query}/i`);
+    let test = ' ${query} ';
+    console.log(test);
 
     req.collection.find({subject:  new RegExp("C")}).toArray().then(function (results, error) {
         if(error){
