@@ -45,7 +45,7 @@ app.param('collectionName', function (req, res, next, collectionName) {
     });
 
 app.get('/collections/:collectionName', function (req, res, next) {
-    req.collection.find({$text: { $search: "Math" }}).toArray().then(function (results, error) {
+    req.collection.find({}).toArray().then(function (results, error) {
         if(error){
             return next(error);
         }
@@ -53,14 +53,6 @@ app.get('/collections/:collectionName', function (req, res, next) {
     });
 });
 
-app.get('/collections/:collectionName/a', function (req, res, next) {
-    req.collection.find({$text: { $search: "Math" }}).toArray().then(function (results, error) {
-        if(error){
-            return next(error);
-        }
-        res.send(results);
-    });
-});
  
 
 //-1 descending 1 ascending
