@@ -54,9 +54,12 @@ app.get('/collections/:collectionName', function (req, res, next) {
     });
 });
 
-app.get('/collections/:collectionName/:query', function (req, res, next) {
-    let re = new RegExp(`/${query}/i`);
-    var test = "C";
+app.get('/collections/:collectionName/:queryIn', function (req, res, next) {
+    let re = new RegExp(`/${queryIn}/i`);
+    var test = req.params.id;
+
+    console.log(queryIn);
+    console.log(test);
 
     req.collection.find({subject:  new RegExp(test)}).toArray().then(function (results, error) {
         if(error){
