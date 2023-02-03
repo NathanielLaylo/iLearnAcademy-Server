@@ -28,20 +28,13 @@ app.set('json spaces', 3);
 app.use(cors());
 //middleware logger
 app.use(morgan("short"));
+var staticPath = path.join(__dirname, "static");
+//middleware authenticator
+app.use(express.static(staticPath));
 
 app.use(express.json());
 
 app.get("/", function(req, res){
-  /*  // console.log(db.collection("lessons").find({}).toArray());
-    req.collection = db.collection("lessons");
-   // console.log(req.collection.find({}).toArray())
-
-    db.collection('lessons').find({}).toArray()
-    .then(function(lessons) {
-      //console.log(lessons); // Use this to debug
-     // callback(lessons);
-    }) */
-
     res.send("select collection1");
     
 }); 
@@ -51,8 +44,28 @@ app.param('collectionName', function (req, res, next, collectionName) {
         return next();
     });
 
-/* app.get('/collections/:collectionName', function (req, res, next) {
+app.get('/collections/:collectionName', function (req, res, next) {
     req.collection.find({}).toArray().then(function (results, error) {
+        if(error){
+            return next(error);
+        }
+        res.send(results);
+    });
+});
+
+app.get('/search/:input', function (req, res, next) {
+    req.collection.find({$text: { $search: input }}).toArray().then(function (results, error) {
+        if(error){
+            return next(error);
+        }
+        res.send(results);
+    });
+});
+ 
+
+//-1 descending 1 ascending
+/* app.get('/collections/:collectionName', function (req, res, next) {
+    req.collection.find({}, {sort: [["price", 1]]}).toArray().then(function (results, error) {
         if(error){
             return next(error);
         }
@@ -61,27 +74,6 @@ app.param('collectionName', function (req, res, next, collectionName) {
 });
  */
 
-//-1 descending 1 ascending
-app.get('/collections/:collectionName', function (req, res, next) {
-    req.collection.find({}, {sort: [["price", 1]]}).toArray().then(function (results, error) {
-        if(error){
-            return next(error);
-        }
-        res.send(results);
-    });
-});
-
-
-  
-
-/* app.get('/collections/:collectionName', function (req, res, next) {
-        req.collection.find({}).toArray().then(function (err, results) {
-            if (err) {
-                return next(err);
-            }
-            res.send(results);
-        });
-    }); */
 
 app.post('/collections/:collectionName', function (req, res, next){
     req.collection.insertOne(req.body).then(function (results, error) {
