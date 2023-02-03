@@ -53,8 +53,8 @@ app.get('/collections/:collectionName', function (req, res, next) {
     });
 });
 
-app.get('/search/:input', function (req, res, next) {
-    req.collection.find({$text: { $search: input }}).toArray().then(function (results, error) {
+app.get('/search', function (req, res, next) {
+    req.collection.find({$text: { $search: "Math" }}).toArray().then(function (results, error) {
         if(error){
             return next(error);
         }
