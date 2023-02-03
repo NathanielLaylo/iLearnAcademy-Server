@@ -53,7 +53,7 @@ app.get('/collections/:collectionName', function (req, res, next) {
     });
 });
 
-app.get('/search', function (req, res, next) {
+app.get('/collections/:collectionName/a', function (req, res, next) {
     req.collection.find({$text: { $search: "Math" }}).toArray().then(function (results, error) {
         if(error){
             return next(error);
