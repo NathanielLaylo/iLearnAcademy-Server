@@ -57,7 +57,7 @@ app.get('/collections/:collectionName', function (req, res, next) {
 app.get('/collections/:collectionName/:inQuery', function (req, res, next) {
     var test = String(req.params.inQuery);
 
-    req.collection.find({subject:  new RegExp(test)}).toArray().then(function (results, error) {
+    req.collection.find({subject:  new RegExp(req.params.inQuery, 'i')}).toArray().then(function (results, error) {
         if(error){
             return next(error);
         }
