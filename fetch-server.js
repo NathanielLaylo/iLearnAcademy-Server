@@ -55,10 +55,9 @@ app.get('/collections/:collectionName', function (req, res, next) {
 });
 
 app.get('/collections/:collectionName/:query', function (req, res, next) {
-    let re = query;
+    let re = new RegExp(`/${query}/i`);
 
-
-    req.collection.find({subject:  new RegExp('^' + re + '$', 'i') }).toArray().then(function (results, error) {
+    req.collection.find({subject:  { $regex: /^c/i} }).toArray().then(function (results, error) {
         if(error){
             return next(error);
         }
